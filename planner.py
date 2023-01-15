@@ -13,37 +13,47 @@ class Plane:
         self.emptyPlaneMoment = emptyPlaneWeight*emptyPlaneArm
         self.pilotsMoment = pilotsWeight*pilotsArm
         self.luggageMoment = luggageWeight*luggageArm
-        self.usableFuelMoment = usableFuelWeight*usableFuelArm
+        self.usableFuelArm = usableFuelArm
         self.maxTakeoffWeight = maxTakeoffWeight
-        self.takeoffWeight = emptyPlaneWeight+pilotsWeight+luggageWeight+usableFuelWeight
+        self.emptyPlaneWeight = emptyPlaneWeight
+        self.pilotsWeight = pilotsWeight
+        self.luggageWeight = luggageWeight
         self.meanAerodynamicChord = meanAerodynamicChord # meters
         self.gravityCentrePosition = gravityCentrePosition # %MAC
 
     def fuelCalculation(self):
-        pathLength = int(input("Total route (in nautical miles): "))
+        pathLength = int(input("\nTotal route (in nautical miles): "))
         pathDuration = (self.baseFactor*pathLength)/60 # hours
         usedFuel = pathDuration*self.fuelConsumption + (100/60)*self.fuelConsumption
-        print(f"Fuel needed for that flight is {round(usedFuel, 1)} liters.")
+        return (usedFuel*0.72)*self.usableFuelArm
 
-    def weightAndBalance(self):
-        totalMoment = self.emptyPlaneMoment+self.pilotsMoment+self.luggageMoment+self.usableFuelMoment
-        if self.takeoffWeight > self.maxTakeoffWeight:
+    def weightAndBalance(self, calculatedFuelMoment):
+        print(colored.green(f"\nYour flight with the {self.name} is ready!"))
+        fuel=(calculatedFuelMoment/self.usableFuelArm)*(1/0.72)
+        print(f"\nFuel needed for that flight is {round(fuel, 1)} liters.")
+        totalMoment = self.emptyPlaneMoment+self.pilotsMoment+self.luggageMoment+calculatedFuelMoment
+        tow = (self.pilotsWeight+self.emptyPlaneWeight+self.luggageWeight+(calculatedFuelMoment/self.usableFuelArm))
+        if tow > self.maxTakeoffWeight:
             print(f"{colored.red('Warning')}: Current takeoff weight is over the limit.")
-        totalArm = totalMoment/self.takeoffWeight
+        totalArm = totalMoment/tow
         macProportion = (totalArm/self.meanAerodynamicChord)*100
         if macProportion > self.gravityCentrePosition:
             print(f"Aircraft is balanced {colored.blue('rear')}")
         elif macProportion < self.gravityCentrePosition:
             print(f"Aircraft is balanced {colored.blue('front')}")
-        print(f"Total Moment: {colored.cyan(round(totalMoment, 1))} kg.m | Total Arm: {colored.cyan(round(totalArm, 3))} m | Total Mass: {self.takeoffWeight} kg")
+        print(f"Total Moment: {colored.cyan(round(totalMoment, 1))} kg.m | Total Arm: {colored.cyan(round(totalArm, 3))} m | Total Mass: {colored.cyan(round(tow,1))} kg | Autonomy: {colored.cyan(round(fuel/self.fuelConsumption, 1))} hours")
 
+def informationGathering():
+    print("\n*******************\n* PyFlightPlanner *\n*******************")
+    print("\n\tAvailable Planes\n\t[1] SportStar RTC\n")
+    plane = int(input("Enter plane number: "))
+    crewWeight = float(input("Crew weight: "))
+    luggageWeight = float(input("Luggage weight: "))
+    
+    # Plane definitions
+    if plane==1: aircraft = Plane("SportStar RTC", 19, 0.7, 124, 144, 353, 0.249, crewWeight, 0.545, luggageWeight, 1.083, 0, 0.680, 600, 1.25, 19.95)
+    aircraft.weightAndBalance(aircraft.fuelCalculation())
 
-# Plane definitions
-# Add a plane by adding a new line with all the needed plane characteristics
+informationGathering()
 
-SportStarRTC = Plane("SportStar RTC", 19, 0.7, 124, 144, 353, 0.249, 125, 0.545, 7.5, 1.083, 60, 0.680, 600, 1.25, 19.95)
-
-
-#tbd: ask for pilot weight, luggage weight, etc. and get fuel weight from fuelCalculation
-SportStarRTC.fuelCalculation()
-SportStarRTC.weightAndBalance()
+#metar : si BKN0 ou OVC0 => bcp de nuages bas donc mort
