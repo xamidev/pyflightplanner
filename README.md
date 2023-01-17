@@ -1,10 +1,11 @@
 # PyFlightPlanner
 
-A python simple VFR flight planner
+A python simple VFR flight planner to make the task easier
+Work in progress
 
-WIP
 ### Usage
 
+`pip install -r requirements.txt`
 `python main.py`
 
 ### Data needed to plan a flight
@@ -29,3 +30,4 @@ WIP
 ### Supported planes
 
 - SportStar RTC
+- Robin DR400/120
