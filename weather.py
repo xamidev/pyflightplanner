@@ -16,5 +16,5 @@ class Weather:
             arrivalPage = requests.get(f"https://metar-taf.com/{self.arrivalAirport}")
             arrivalSoup = BeautifulSoup(arrivalPage.content, 'html.parser')
             arrivalMetar = arrivalSoup.select('code')[0].text
-            print(f"{colored.cyan(departureMetar)}\n{colored.cyan(arrivalMetar)}")
-        else: print(f"{colored.cyan(departureMetar)}")
+            return departureMetar, arrivalMetar
+        else: return departureMetar, departureMetar
