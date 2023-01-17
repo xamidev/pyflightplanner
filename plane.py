@@ -20,17 +20,18 @@ class Plane:
         self.luggageWeight = luggageWeight
         self.meanAerodynamicChord = meanAerodynamicChord # meters
         self.gravityCentrePosition = gravityCentrePosition # %MAC
-
+    
     def fuelCalculation(self):
-        pathLength = int(input("\nTotal route (in nautical miles): "))
+        pathLength = int(input("Total route (in nautical miles): "))
         pathDuration = (self.baseFactor*pathLength)/60 # hours
         usedFuel = pathDuration*self.fuelConsumption + (100/60)*self.fuelConsumption
         return (usedFuel*0.72)*self.usableFuelArm
 
     def weightAndBalance(self, calculatedFuelMoment):
-        print(colored.green(f"\nYour flight with the {self.name} is ready!"))
+        #print(colored.green(f"\nYour flight with the {self.name} is ready!"))
         fuel=(calculatedFuelMoment/self.usableFuelArm)*(1/0.72)
-        print(f"\nFuel needed for that flight is {round(fuel, 1)} liters.")
+        print(colored.green(f"\nYour flight with {self.name} is ready!"))
+        print(f"\nFuel needed for that flight is {colored.cyan(round(fuel, 1))} liters.")
         totalMoment = self.emptyPlaneMoment+self.pilotsMoment+self.luggageMoment+calculatedFuelMoment
         tow = (self.pilotsWeight+self.emptyPlaneWeight+self.luggageWeight+(calculatedFuelMoment/self.usableFuelArm))
         if tow > self.maxTakeoffWeight:
