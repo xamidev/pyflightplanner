@@ -5,13 +5,25 @@ A python simple VFR flight planner
 WIP
 ### Usage
 
-`python planner.py`
+`python main.py`
+
+### Data needed to plan a flight
+
+- Departure and arrival airports ICAO codes
+- Crew, passengers, and luggage weight
+
+### Data needed to add an aircraft
+
+- Fuel consumption
+- Price per engine hour
+- Weight and Balance data
+- Base factor
 
 ### Why do this project?
 
-- To learn about Oriented Object Programming (OOP)
+- To learn about Object-Oriented Programming (OOP)
 - To expand my Python general knowledge
-- To learn how to use Scrapy
+- To learn how to use BeautifulSoup
 - And because it could be useful to me
 
 ### Supported planes
