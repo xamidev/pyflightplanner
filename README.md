@@ -1,7 +1,13 @@
 # PyFlightPlanner
 
 A python simple VFR flight planner to make the task easier
-Work in progress
+
+### Features
+
+- Weight and Balance calculation
+- Fuel calculation
+- Weather forecasts
+- Price calculation
 
 ### Usage
 
