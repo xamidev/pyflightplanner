@@ -15,6 +15,7 @@ def planeRelatedPrep():
     if plane==1: aircraft = Plane("SportStar RTC", 19, 0.7, 124, 144, 353, 0.249, crewWeight, 0.545, luggageWeight, 1.083, 0, 0.680, 600, 1.25, 19.95)
     elif plane==2: aircraft = Plane("Robin DR400/120", 25, 0.6, 158, 178, 575, 0.385, crewWeight, 0.41, luggageWeight, 1.9, 0, 1.12, 900, 0.385, 19.95)
     aircraft.weightAndBalance(aircraft.fuelCalculation())
+    aircraft.priceCalculation()
 
 def weatherRelatedPrep():
     if arrivalAirport == "": weather = Weather(departureAirport, departureAirport)
@@ -44,7 +45,7 @@ def weatherRelatedPrep():
         print(f"Wind is {windDirection}° {windForce} knots | QNH: {qnh} hPa | Temperature: {temperature}°C | Dew point: {dewPoint}°C | Air is {air}")
         print(f"Raw data: {metar}")
 
-# tbd: price calculation
+#tbd : advanced Metar information & SPECI support
 
 planeRelatedPrep()
 weatherRelatedPrep()
