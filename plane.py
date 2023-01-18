@@ -22,6 +22,7 @@ class Plane:
         self.gravityCentrePosition = gravityCentrePosition # %MAC
     
     def fuelCalculation(self):
+        global pathLength
         pathLength = int(input("Total route (in nautical miles): "))
         pathDuration = (self.baseFactor*pathLength)/60 # hours
         usedFuel = pathDuration*self.fuelConsumption + (100/60)*self.fuelConsumption
@@ -43,3 +44,10 @@ class Plane:
         elif macProportion < self.gravityCentrePosition:
             print(f"Aircraft is balanced {colored.blue('front')}")
         print(f"Total Moment: {colored.cyan(round(totalMoment, 1))} kg.m | Total Arm: {colored.cyan(round(totalArm, 3))} m | Total Mass: {colored.cyan(round(tow,1))} kg | Autonomy: {colored.cyan(round(fuel/self.fuelConsumption, 1))} hours")
+    
+    def priceCalculation(self):
+        estimatedRouteTime = round(pathLength*self.baseFactor)
+        lowEstimatedFlightTime = round(estimatedRouteTime+20)/60
+        highEstimatedFlightTime = round(estimatedRouteTime+40)/60
+        print(f"\nSolo price estimation | Low: {colored.green(round(lowEstimatedFlightTime*self.soloPrice, 2))} EUR | High: {colored.red(round(highEstimatedFlightTime*self.soloPrice, 2))} EUR")
+        print(f"Double command        | Low: {colored.green(round(lowEstimatedFlightTime*self.doublePrice))} EUR | High: {colored.red(round(highEstimatedFlightTime*self.doublePrice, 2))} EUR")
